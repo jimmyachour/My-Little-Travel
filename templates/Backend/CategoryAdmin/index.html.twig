@@ -1,0 +1,37 @@
+{% extends 'Backend/base.html.twig' %}
+
+{% block title %}Liste des categories{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Liste des categories</h1>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for category in categories %}
+                <tr>
+                    <td>{{ category.id }}</td>
+                    <td>{{ category.name }}</td>
+                    <td>
+                        <a class="btn-allTravel-card btn btn-primary btn-sm" href="{{ path('admin_articles_by_cate', {'categoryId': category.id}) }}">Articles associés</a>
+                        <a class="btn-allTravel-card btn btn-primary btn-sm" href="{{ path('admin_category_edit', {'id': category.id}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('admin_category_new') }}">Ajouter une categorie</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            {% for article in articles %}
+                <div class="card-travels col-10 col-md-5">
+                    <div class="card-travels__image-container">
+                        <img class="card-travels__image" src="{{ article.img }}" alt="">
+                    </div>
+
+                    <svg class="card-travels__svg" viewBox="0 0 800 500">
+
+                        <path d="M 0 100 Q 50 200 100 250 Q 250 400 350 300 C 400 250 550 150 650 300 Q 750 450 800 400 L 800 500 L 0 500" stroke="transparent" fill="#333"/>
+                        <path class="card__line" d="M 0 100 Q 50 200 100 250 Q 250 400 350 300 C 400 250 550 150 650 300 Q 750 450 800 400" stroke="pink" stroke-width="3" fill="transparent"/>
+                    </svg>
+
+                    <div class="card-travels__content">
+                        <h1 class="card-travels__title">{{ article.title }}</h1>
+                        <p>{{ article.content | truncate(200, true, ' . . .')}}</p>
+                    </div>
+                    <p class="card-travel__info">Écrit par {{ article.author }} le </p>
+                    <div class="row card-travels__btn">
+                        <a href="/mon-voyage/{{ article.id }}" class="btn-allTravel-card btn btn-primary btn-md">Je vais voir</a>
+                        <p>{{ article.comments|length }} <i class="fa fa-comments-o"  style="font-size: 24px";></i></p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

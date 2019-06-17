@@ -1,0 +1,36 @@
+{% extends "Backend/base.html.twig" %}
+
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="admin-box-btn-top col-12">
+        <a href="{{ path('admin_category_index') }}" class="btn-allTravel-card btn btn-primary btn-sm">Retour</a>
+        </div>
+        <div class="row admin-article-list">
+            {% for article in articles %}
+                <div class="admin-card-travel card-travels  col-10 col-md-3">
+                    <div class="card-travels__image-container">
+                        <img class="card-travels__image" src="{{ article.img }}" alt="">
+                    </div>
+
+                    <svg class="card-travels__svg" viewBox="0 0 800 500">
+
+                        <path d="M 0 100 Q 50 200 100 250 Q 250 400 350 300 C 400 250 550 150 650 300 Q 750 450 800 400 L 800 500 L 0 500" stroke="transparent" fill="#333"/>
+                        <path class="card__line" d="M 0 100 Q 50 200 100 250 Q 250 400 350 300 C 400 250 550 150 650 300 Q 750 450 800 400" stroke="pink" stroke-width="3" fill="transparent"/>
+                    </svg>
+
+                    <div class="card-travels__content">
+                        <h1 class="card-travels__title">{{ article.title }}</h1>
+                        <p>{{ article.content | truncate(200, true, ' . . .')}}</p>
+                    </div>
+                    <p class="card-travel__info">Écrit par {{ article.author }} le </p>
+                    <div class="admin__card-travel__box-btn col-12">
+                        <a href="/mon-voyage/{{ article.id }}" class="btn-allTravel-card btn btn-primary btn-sm">Voir la page</a>
+                        <a href="{{ path('admin_article_edit', { id: article.id }) }}" class="btn-allTravel-card btn btn-warning btn-sm">Modifier</a>
+                        <a href="{{ path('admin_article_delete', { id: article.id }) }}" class="btn-allTravel-card btn btn-danger btn-sm">Supprimer</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
