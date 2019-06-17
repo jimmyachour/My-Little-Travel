@@ -1,7 +1,7 @@
 # mylitletravel
 Blog of travel
 
-Bonjour à tous, pour teste:
+Bonjour à tous, pour tester:
 
 admin ==> 
 
