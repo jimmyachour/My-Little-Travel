@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190608132132 extends AbstractMigration
+final class Version20190617084400 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,7 +22,9 @@ final class Version20190608132132 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE user ADD email VARCHAR(180) NOT NULL, ADD roles JSON NOT NULL, ADD password VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE article ADD author_id INT NOT NULL, DROP author');
+        $this->addSql('ALTER TABLE article ADD CONSTRAINT FK_23A0E66F675F31B FOREIGN KEY (author_id) REFERENCES user (id)');
+        $this->addSql('CREATE INDEX IDX_23A0E66F675F31B ON article (author_id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON user (email)');
     }
 
@@ -31,7 +33,9 @@ final class Version20190608132132 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
+        $this->addSql('ALTER TABLE article DROP FOREIGN KEY FK_23A0E66F675F31B');
+        $this->addSql('DROP INDEX IDX_23A0E66F675F31B ON article');
+        $this->addSql('ALTER TABLE article ADD author VARCHAR(255) NOT NULL COLLATE utf8mb4_unicode_ci, DROP author_id');
         $this->addSql('DROP INDEX UNIQ_8D93D649E7927C74 ON user');
-        $this->addSql('ALTER TABLE user DROP email, DROP roles, DROP password');
     }
 }

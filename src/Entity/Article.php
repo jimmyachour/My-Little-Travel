@@ -34,10 +34,6 @@ class Article
      */
     private $category;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $author;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -54,21 +50,41 @@ class Article
      */
     private $comments;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="articles")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
+
+    /**
+     * Article constructor.
+     */
     public function __construct()
     {
         $this->comments = new ArrayCollection();
     }
+
+    /***************** ******************/
+    /*************  GETTER  *************/
+    /***************** ******************/
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
+    /**
+     * @param string $title
+     * @return Article
+     */
     public function setTitle(string $title): self
     {
         $this->title = $this->getReadableTitle($title);
@@ -76,45 +92,29 @@ class Article
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getContent(): ?string
     {
         return $this->content;
     }
 
-    public function setContent(string $content): self
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
+    /**
+     * @return mixed
+     */
     public function getCategory()
     {
         return $this->category;
     }
 
-    public function setCategory($category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
+    /**
+     * @param string $title
+     * @return string
+     */
     public function getReadableTitle(string $title):string
     {
         return implode(' ', array_map('ucfirst', explode('-',$title)));
-    }
-
-    public function getAuthor(): ?string
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(string $author): self
-    {
-        $this->author = $author;
-
-        return $this;
     }
 
     /**
@@ -126,6 +126,34 @@ class Article
     }
 
     /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    /**
+     * @return User|null
+     */
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    /***************** ******************/
+    /*************  SETTER  *************/
+    /***************** ******************/
+
+    /**
      * @param mixed $img
      */
     public function setImg($img): void
@@ -133,11 +161,32 @@ class Article
         $this->img = $img;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    /**
+     * @param $category
+     * @return Article
+     */
+    public function setCategory($category): self
     {
-        return $this->date;
+        $this->category = $category;
+
+        return $this;
     }
 
+    /**
+     * @param string $content
+     * @return Article
+     */
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * @param \DateTimeInterface $date
+     * @return Article
+     */
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
@@ -146,13 +195,9 @@ class Article
     }
 
     /**
-     * @return Collection|Comment[]
+     * @param Comment $comment
+     * @return Article
      */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-
     public function addComment(Comment $comment): self
     {
         if (!$this->comments->contains($comment)) {
@@ -163,6 +208,10 @@ class Article
         return $this;
     }
 
+    /**
+     * @param Comment $comment
+     * @return Article
+     */
     public function removeComment(Comment $comment): self
     {
         if ($this->comments->contains($comment)) {
@@ -172,6 +221,17 @@ class Article
                 $comment->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @param User|null $author
+     * @return Article
+     */
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

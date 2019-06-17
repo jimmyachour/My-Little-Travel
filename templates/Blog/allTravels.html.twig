@@ -19,7 +19,7 @@
                         <h1 class="card-travels__title">{{ article.title }}</h1>
                         <p>{{ article.content | truncate(200, true, ' . . .')}}</p>
                     </div>
-                    <p class="card-travel__info">Écrit par {{ article.author }} le </p>
+                    <p class="card-travel__info">Écrit par {{ article.author.lastname | upper }} {{ article.author.firstname |upper }} le </p>
                     <div class="row card-travels__btn">
                         <a href="/mon-voyage/{{ article.id }}" class="btn-allTravel-card btn btn-primary btn-md">Je vais voir</a>
                         <p>{{ article.comments|length }} <i class="fa fa-comments-o"  style="font-size: 24px";></i></p>

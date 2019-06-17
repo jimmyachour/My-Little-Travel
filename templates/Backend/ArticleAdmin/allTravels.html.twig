@@ -21,7 +21,7 @@
                         <h1 class="card-travels__title">{{ article.title }}</h1>
                         <p>{{ article.content | truncate(200, true, ' . . .')}}</p>
                     </div>
-                    <p class="card-travel__info">Écrit par {{ article.author }} le </p>
+                    <p class="card-travel__info">Écrit par {{ article.author.lastname | upper }} {{ article.author.firstname |upper }} le </p>
                     <div class="admin__card-travel__box-btn col-12">
                         <a href="/mon-voyage/{{ article.id }}" class="btn-allTravel-card btn btn-primary btn-sm">Voir la page</a>
                         <a href="{{ path('admin_article_edit', { id: article.id }) }}" class="btn-allTravel-card btn btn-warning btn-sm">Modifier</a>

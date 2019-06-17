@@ -78,9 +78,15 @@ class User implements UserInterface
      */
     private $confirm_password;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="author", orphanRemoval=true)
+     */
+    private $articles;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->articles = new ArrayCollection();
     }
 
     /***************** ******************/
@@ -153,6 +159,14 @@ class User implements UserInterface
     public function getSalt()
     {
         // not needed when using the "bcrypt" algorithm in security.yaml
+    }
+
+    /**
+     * @return Collection|Article[]
+     */
+    public function getArticles(): Collection
+    {
+        return $this->articles;
     }
 
     public function getEmail(): ?string
@@ -272,6 +286,29 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($comment->getUser() === $this) {
                 $comment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addArticle(Article $article): self
+    {
+        if (!$this->articles->contains($article)) {
+            $this->articles[] = $article;
+            $article->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Article $article): self
+    {
+        if ($this->articles->contains($article)) {
+            $this->articles->removeElement($article);
+            // set the owning side to null (unless already changed)
+            if ($article->getAuthor() === $this) {
+                $article->setAuthor(null);
             }
         }
 

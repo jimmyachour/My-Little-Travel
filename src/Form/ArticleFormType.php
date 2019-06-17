@@ -16,7 +16,6 @@ class ArticleFormType extends AbstractType
             ->add('title')
             ->add('img')
             ->add('content')
-            ->add('author')
             ->add('date',DateType::class, ['widget' => 'choice'])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
