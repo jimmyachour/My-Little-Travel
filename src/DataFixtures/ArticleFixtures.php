@@ -30,7 +30,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
 
             $article->setTitle($faker->sentence);
             $article->setContent($faker->text(1000));
-            $article->setAuthor($this->getReference('admin'));
+            $article->setAuthor($this->getReference('writer_' . rand(0,1)));
             $article->setImg(self::IMG_LINK[$i]);
             $article->getDate(new \DateTime($faker->dateTimeThisCentury->format($format = 'Y-m-d')));
             $article->setCategory($this->getReference(rand(0, 5)));

@@ -10,13 +10,13 @@
                         <h4 class="card-title">{{ article.title }}</h4>
                         <p class="card-text">{{ article.content }}</p>
                         <p><strong>Laissez moi un commentaire :</strong></p>
-                        {% if not app.user %}
-                            <p>Pour commenter cet article : <a href="{{ path('security_login') }}">connectez-vous</a>.</p>
-                        {% else %}
+                        {% if is_granted('ROLE_USER') %}
                             {{ form_start(commentForm) }}
                             {{ form_row(commentForm.content, {'label': 'Commentaire'}) }}
                             <button class="btn">{{ button_label|default('Valider') }}</button>
                             {{ form_end(commentForm) }}
+                        {% else %}
+                            <p>Pour commenter cet article : <a href="{{ path('security_login') }}">connectez-vous</a>.</p>
                         {% endif %}
                         {% for comment in article.comments %}
                             <div class="card">

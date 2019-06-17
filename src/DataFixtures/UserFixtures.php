@@ -20,7 +20,7 @@ class UserFixtures extends Fixture
     {
         $faker = Faker\Factory::create('fr_FR');
 
-        // Admin
+        // Admin 1
         $user = new User();
         $user->setLastname($faker->lastName);
         $user->setFirstname($faker->firstName);
@@ -31,6 +31,32 @@ class UserFixtures extends Fixture
         $user->setRoles(['ROLE_ADMIN']);
         $user->setPassword($this->encoder->encodePassword($user,'admin'));
         $this->addReference('admin', $user);
+        $manager->persist($user);
+
+        // Writer 1
+        $user = new User();
+        $user->setLastname($faker->lastName);
+        $user->setFirstname($faker->firstName);
+        $user->setCity($faker->city);
+        $user->setBirthDate(new \DateTime($faker->dateTimeThisCentury->format('Y-m-d')));
+        $user->setImgProfil('0.jpg');
+        $user->setEmail('writer1@writer.fr');
+        $user->setRoles(['ROLE_WRITER']);
+        $user->setPassword($this->encoder->encodePassword($user,'writer'));
+        $this->addReference('writer_' . 0, $user);
+        $manager->persist($user);
+
+        // Writer 2
+        $user = new User();
+        $user->setLastname($faker->lastName);
+        $user->setFirstname($faker->firstName);
+        $user->setCity($faker->city);
+        $user->setBirthDate(new \DateTime($faker->dateTimeThisCentury->format('Y-m-d')));
+        $user->setImgProfil('0.jpg');
+        $user->setEmail('writer2@writer.fr');
+        $user->setRoles(['ROLE_WRITER']);
+        $user->setPassword($this->encoder->encodePassword($user,'writer'));
+        $this->addReference('writer_' . 1, $user);
         $manager->persist($user);
 
         // User 1

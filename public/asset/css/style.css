@@ -91,6 +91,11 @@ footer
     background-color: black;
 }
 
+div.btn-action-logged {
+    position: absolute;
+    right: 50px;
+}
+
 @keyframes LineFadeIn {
     0% {
         opacity: 0;

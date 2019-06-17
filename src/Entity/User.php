@@ -83,10 +83,16 @@ class User implements UserInterface
      */
     private $articles;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Mail", mappedBy="exp")
+     */
+    private $mails;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->articles = new ArrayCollection();
+        $this->mails = new ArrayCollection();
     }
 
     /***************** ******************/
@@ -310,6 +316,34 @@ class User implements UserInterface
             if ($article->getAuthor() === $this) {
                 $article->setAuthor(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Mail[]
+     */
+    public function getMails(): Collection
+    {
+        return $this->mails;
+    }
+
+    public function addMail(Mail $mail): self
+    {
+        if (!$this->mails->contains($mail)) {
+            $this->mails[] = $mail;
+            $mail->addExp($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMail(Mail $mail): self
+    {
+        if ($this->mails->contains($mail)) {
+            $this->mails->removeElement($mail);
+            $mail->removeExp($this);
         }
 
         return $this;

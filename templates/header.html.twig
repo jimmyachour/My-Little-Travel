@@ -20,14 +20,27 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact</a>
                     </li>
+
                     {% if not app.user %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('security_login') }}">Connexion</a>
-                    </li>
+                        <div class="btn-action-logged">
+                            <a class="nav-link" href="{{ path('security_login') }}">Connexion</a>
+                        </div>
                     {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('security_logout') }}">Déconnexion</a>
-                    </li>
+                        {% if is_granted('ROLE_WRITER') %}
+                            <div class="btn-group dropleft btn-action-logged">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Menu
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{{ path('admin_dashboard') }}">Dashboard Admin</a>
+                                    <a class="dropdown-item" href="{{ path('security_logout') }}">Deconnexion</a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="btn-action-logged">
+                                <a class="nav-link"  href="{{ path('security_logout') }}">Deconnexion</a>
+                            </div>
+                        {% endif %}
                     {% endif %}
                 </ul>
             </div>

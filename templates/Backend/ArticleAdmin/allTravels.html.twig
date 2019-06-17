@@ -24,8 +24,10 @@
                     <p class="card-travel__info">Écrit par {{ article.author.lastname | upper }} {{ article.author.firstname |upper }} le </p>
                     <div class="admin__card-travel__box-btn col-12">
                         <a href="/mon-voyage/{{ article.id }}" class="btn-allTravel-card btn btn-primary btn-sm">Voir la page</a>
+                        {% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_WRITER') and app.user == article.author )%}
                         <a href="{{ path('admin_article_edit', { id: article.id }) }}" class="btn-allTravel-card btn btn-warning btn-sm">Modifier</a>
                         <a href="{{ path('admin_article_delete', { id: article.id }) }}" class="btn-allTravel-card btn btn-danger btn-sm">Supprimer</a>
+                        {% endif %}
                     </div>
                 </div>
             {% else %}
