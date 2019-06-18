@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
 /**
@@ -73,6 +75,8 @@ class ArticleAdminController extends AbstractController
      */
     public function edit(Request $request, Article $article): Response
     {
+        $this->denyAccessUnlessGranted('EDIT', $article);
+
         $form = $this->createForm(ArticleFormType::class, $article);
         $form->handleRequest($request);
 
@@ -95,6 +99,8 @@ class ArticleAdminController extends AbstractController
      */
     public function delete(Request $request, Article $article): Response
     {
+        $this->denyAccessUnlessGranted('DELETE', $article);
+
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($article);
         $entityManager->flush();
