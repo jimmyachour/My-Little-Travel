@@ -20,43 +20,13 @@
                                 <h4 class="modal-title">ENVOYER UN MAIL</h4>
                             </div>
                             <div class="modal-body">
-                                <form role="form" class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-lg-2 control-label">To</label>
-                                        <div class="col-lg-10">
-                                            <input type="text" placeholder="" id="inputEmail1" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-lg-2 control-label">Cc / Bcc</label>
-                                        <div class="col-lg-10">
-                                            <input type="text" placeholder="" id="cc" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-lg-2 control-label">Sujet</label>
-                                        <div class="col-lg-10">
-                                            <input type="text" placeholder="" id="inputPassword1" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-lg-2 control-label">Message</label>
-                                        <div class="col-lg-10">
-                                            <textarea rows="10" cols="30" class="form-control" id="" name=""></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-lg-offset-2 col-lg-10">
-                                                      <span class="btn green fileinput-button">
-                                                        <i class="fa fa-plus fa fa-white"></i>
-                                                        <span>Pièce Jointe</span>
-                                                        <input type="file" name="files[]" multiple="">
-                                                      </span>
-                                            <button class="btn btn-send" type="submit">Envoyer</button>
-                                        </div>
-                                    </div>
-                                </form>
+                               {{ form_start(formMail) }}
+                                    {{ form_row(formMail.recipient,{'label': 'Destinataire'}) }}
+                                    {{ form_row(formMail.subject, {'label': 'Sujet'}) }}
+                                    {{ form_row(formMail.content, {'label': 'Message'}) }}
+                                    {{ form_row(formMail.attachment, {'label': 'Pièce jointe'}) }}
+                                <button type="submit" class="btn btn-primary">Envoyer</button>
+                               {{ form_end(formMail) }}
                             </div>
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->

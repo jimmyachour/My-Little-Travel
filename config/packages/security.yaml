@@ -44,4 +44,4 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: /admin, roles: [ROLE_ADMIN, ROLE_WRITER] }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: /tous-mes-voyages, roles: ROLE_USER }

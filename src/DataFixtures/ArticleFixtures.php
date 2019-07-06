@@ -34,6 +34,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
             $article->setImg(self::IMG_LINK[$i]);
             $article->getDate(new \DateTime($faker->dateTimeThisCentury->format($format = 'Y-m-d')));
             $article->setCategory($this->getReference(rand(0, 5)));
+            $this->addReference('article_' . $i, $article);
 
             $manager->persist($article);
         }

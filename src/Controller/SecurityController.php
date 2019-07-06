@@ -74,6 +74,7 @@ class SecurityController extends AbstractController
 
             $mailer->send($message);
 
+
             return $this->redirectToRoute('security_login');
         }
 

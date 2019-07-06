@@ -88,11 +88,17 @@ class User implements UserInterface
      */
     private $mails;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ArticleLike", mappedBy="user")
+     */
+    private $likes;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->articles = new ArrayCollection();
         $this->mails = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     /***************** ******************/
@@ -344,6 +350,37 @@ class User implements UserInterface
         if ($this->mails->contains($mail)) {
             $this->mails->removeElement($mail);
             $mail->removeExp($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ArticleLike[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(ArticleLike $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(ArticleLike $like): self
+    {
+        if ($this->likes->contains($like)) {
+            $this->likes->removeElement($like);
+            // set the owning side to null (unless already changed)
+            if ($like->getUser() === $this) {
+                $like->setUser(null);
+            }
         }
 
         return $this;

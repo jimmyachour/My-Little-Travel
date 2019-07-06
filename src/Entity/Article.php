@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -57,11 +58,17 @@ class Article
     private $author;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ArticleLike", mappedBy="article")
+     */
+    private $likes;
+
+    /**
      * Article constructor.
      */
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     /***************** ******************/
@@ -234,5 +241,49 @@ class Article
         $this->author = $author;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|ArticleLike[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(ArticleLike $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(ArticleLike $like): self
+    {
+        if ($this->likes->contains($like)) {
+            $this->likes->removeElement($like);
+            // set the owning side to null (unless already changed)
+            if ($like->getArticle() === $this) {
+                $like->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * To know is article is liked by user
+     * @param \App\Entity\User $user
+     *
+     * @return bool
+     */
+    public function isLikeByUser(User $user) : bool
+    {
+        foreach ($this->likes as $like){
+           return ($like->getUser() === $user)? true : false ;
+        }
     }
 }

@@ -35,7 +35,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
 
     public function supports(Request $request)
     {
-        return 'app_login' === $request->attributes->get('_route')
+        return 'security_login' === $request->attributes->get('_route')
             && $request->isMethod('POST');
     }
 
@@ -62,7 +62,6 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
         }
 
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
-
         if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Email could not be found.');
@@ -75,15 +74,25 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
     {
         // Check the user's password or other credentials and return true or false
         // If there are no credentials to check, you can just return true
-        throw new \Exception('TODO: check the credentials inside '.__FILE__);
+        // throw new \Exception('TODO: check the credentials inside '.__FILE__);
+        return true;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
-            return new RedirectResponse($targetPath);
+        $roles = $token->getRoles();
+
+        $rolesTab = array_map(function ($roles) {
+            return $roles->getRole();
+        }, $roles);
+
+        if (in_array('ROLE_ADMIN', $rolesTab, true)) {
+            $redirection = new RedirectResponse($this->urlGenerator->generate('admin_dashboard'));
+        } else {
+            $redirection = new RedirectResponse($this->urlGenerator->generate('app_all_travels'));
         }
-        return new RedirectResponse($this->urlGenerator->generate('admin_dashboard'));
+
+        return $redirection;
     }
 
     protected function getLoginUrl()

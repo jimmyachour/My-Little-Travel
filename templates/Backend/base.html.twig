@@ -26,9 +26,18 @@
 
 {% include 'Backend/header.html.twig' %}
 
+{% for category, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ category }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
 
 {% block content %}{% endblock %}
+
 {% block javascripts %}{{ encore_entry_script_tags('app') }}{% endblock %}
+
 <script type="text/javascript">
     jQuery(function ($) {
         var performance = [12, 43, 34, 22, 12, 33, 4, 17, 22, 34, 54, 67],
