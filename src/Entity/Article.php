@@ -2,13 +2,22 @@
 
 namespace App\Entity;
 
-use App\Entity\User;
+use Doctrine\ORM\Mapping as ORM;
+
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
+ * /**
+ * @ORM\Entity
+ * @UniqueEntity(
+ *     "title",
+ *     message="Ce titre d'article existe déjà !"
+ * )
  */
 class Article
 {
@@ -21,11 +30,21 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Désolé, mais vous devez saisir un titre pour cet article!")
+     * @Assert\Length(
+     *     max="255",
+     *     maxMessage="Merci de remplir ne pas dépasser 255 caractères pour le titre !"
+     * )
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=1000)
+     * * @Assert\Regex(
+     *     pattern= "/ digital /i",
+     *     match=false,
+     *     message="en français, il faut dire numérique!"
+     * )
      */
     private $content;
 
