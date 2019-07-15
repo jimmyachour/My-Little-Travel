@@ -37,7 +37,7 @@ class BlogController extends AbstractController
      */
     public function showAllTravels(ArticleRepository $articleRepository):Response
     {
-        return $this->render('Blog/allTravels.html.twig',['articles' =>  $articleRepository->findAll()]);
+        return $this->render('Blog/allTravels.html.twig',['articles' =>  $articleRepository->findAllArticlesAndUsingTags()]);
     }
 
     /**

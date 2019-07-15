@@ -1,0 +1,38 @@
+{% extends 'Backend/base.html.twig' %}
+
+{% block title %}Tag index{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1>Tag index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>N°</th>
+                <th>Titre</th>
+                <th>Nbres Articles</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tag in tags %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ tag.name }}</td>
+                <td>{{ tag.articles|length }}</td>
+                <td>
+                    <a href="{{ path('admin_tag_show', {'id': tag.id}) }}" class="btn-allTravel-card btn btn-warning btn-sm">Modifier</a>
+                    <a href="{{ path('admin_tag_edit', {'id': tag.id}) }}" class="btn-allTravel-card btn btn-danger btn-sm">Supprimer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('admin_tag_new') }}" class="btn-allTravel-card btn btn-primary btn-sm">Ajouter un Tag</a>
+</div>
+{% endblock %}

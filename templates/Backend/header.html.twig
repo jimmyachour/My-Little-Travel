@@ -17,6 +17,7 @@
                 <li {% if app.request.pathInfo == path('admin_dashboard') %}class="selected" {% endif %}><a href="/admin"><i class="fa fa-bullseye"></i> Tableau de Bord</a></li>
                 <li {% if app.request.pathInfo == path('admin_articles') %}class="selected" {% endif %}><a href="/admin/articles"><i class="fa fa-tasks"></i> Articles</a></li>
                 <li {% if app.request.pathInfo == path('admin_category_index') %}class="selected" {% endif %}><a href="{{ path('admin_category_index') }}"><i class="fa fa-list-ol"> Catégories</i> </a></li>
+                <li {% if app.request.pathInfo == path('admin_category_index') %}class="selected" {% endif %}><a href="{{ path('admin_tag_index') }}"><i class="fa fa-pencil"> Tags</i> </a></li>
                 <li {% if app.request.pathInfo == path('admin_category_index') %}class="selected" {% endif %}><a href="{{ path('admin_mail') }}"><i class="fa fa-envelope"> Boite Mail</i> </a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right navbar-user">

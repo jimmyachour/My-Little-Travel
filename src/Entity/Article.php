@@ -14,10 +14,7 @@ use Doctrine\Common\Collections\Collection;
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
  * /**
  * @ORM\Entity
- * @UniqueEntity(
- *     "title",
- *     message="Ce titre d'article existe déjà !"
- * )
+ * @UniqueEntity("title",message="Ce titre d'article existe déjà !")
  */
 class Article
 {
@@ -82,12 +79,18 @@ class Article
     private $likes;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="articles")
+     */
+    private $tags;
+
+    /**
      * Article constructor.
      */
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     /***************** ******************/
@@ -294,15 +297,30 @@ class Article
     }
 
     /**
-     * To know is article is liked by user
-     * @param \App\Entity\User $user
-     *
-     * @return bool
+     * @return Collection|Tag[]
      */
-    public function isLikeByUser(User $user) : bool
+    public function getTags(): Collection
     {
-        foreach ($this->likes as $like){
-           return ($like->getUser() === $user)? true : false ;
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+            $tag->addArticle($this);
         }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        if ($this->tags->contains($tag)) {
+            $this->tags->removeElement($tag);
+            $tag->removeArticle($this);
+        }
+
+        return $this;
     }
 }
