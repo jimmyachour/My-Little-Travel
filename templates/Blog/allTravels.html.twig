@@ -42,7 +42,7 @@
                             </button>
                             <div class="dropdown-menu">
                                 {% for tag in article.tags %}
-                                    <a class="dropdown-item" href="#"> {{ tag.name }}</a>
+                                    <a class="dropdown-item" href="{{ path('app_travel_tag', {'id': tag.id}) }}">{{ tag.name }}</a>
                                 {% else %}
                                     <p>Aucun Tag...</p>
                                 {% endfor %}

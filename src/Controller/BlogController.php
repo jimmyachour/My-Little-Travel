@@ -6,9 +6,11 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\ArticleLike;
 use App\Entity\Comment;
+use App\Entity\Tag;
 use App\Form\UserComment;
 use App\Repository\ArticleLikeRepository;
 use App\Repository\ArticleRepository;
+use App\Repository\TagRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,6 +44,15 @@ class BlogController extends AbstractController
 
     /**
      *
+     * @Route("/mon-voyage/by-tag/{id}", name="travel_tag")
+     */
+    public function showByArticlesByTag(Tag $tag)
+    {
+        return $this->render('Blog/allTravels.html.twig',['articles' => $tag->getArticles()]);
+    }
+
+    /**
+     *
      * @Route("/mon-voyage/{id}", name="travel")
      */
     public function showTravel(Article $article, Request $request, ObjectManager $manager):Response
@@ -67,7 +78,6 @@ class BlogController extends AbstractController
             'commentForm' => $form->createView(),
         ]);
     }
-
 
     /**
      * @Route ("/article/{id}/like", name="article_like")
