@@ -24,18 +24,8 @@
                     <p class="card-travel__info">Écrit
                         par {{ article.author.lastname | upper }} {{ article.author.firstname |upper }} le </p>
                     <div class="row card-travels__btn">
-                        <a href="/mon-voyage/{{ article.id }}" class="btn-allTravel-card btn btn-primary btn-md">Je vais
-                            voir</a>
+                        <a href="/mon-voyage/{{ article.id }}" class="btn-allTravel-card btn btn-primary btn-md">Je vais voir</a>
                         <p>{{ article.comments|length }} <i class="fa fa-comments-o" style="font-size: 24px" ;></i></p>
-                        <a href="{{ path('app_article_like', {'id': article.id}) }}" class=" js-like btn btn-link">
-                            {% if app.user and article.likes(app.user) %}
-                                <i class="fa fa-thumbs-o-up"></i>
-                            {% else %}
-                                <i class="fas fa-thumbs-o-up"></i>
-                            {% endif %}
-                            <span class="js-likes">{{ article.likes | length }}</span>
-                            <span class="js-label">J'aime</span>
-                        </a>
                         <div class="btn-group dropleft">
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Tags
@@ -58,25 +48,4 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script>
-
-        function onClickBtnLike(event) {
-
-            event.preventDefault();
-
-            const url = this.href;
-            const spanCount = this.querySelector('span.js-likes');
-
-            axios.get(url).then(function (response) {
-                spanCount.textContent = response.data.likes;
-            })
-
-        }
-
-        document.querySelectorAll('a.js-like').forEach(function (link) {
-            link.addEventListener('click', onClickBtnLike);
-
-        })
-
-    </script>
 {% endblock %}

@@ -89,16 +89,18 @@ class User implements UserInterface
     private $mails;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ArticleLike", mappedBy="user")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Article")
      */
-    private $likes;
+    private $favArticles;
+
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->articles = new ArrayCollection();
         $this->mails = new ArrayCollection();
-        $this->likes = new ArrayCollection();
+        $this->favorite = new ArrayCollection();
+        $this->favArticles = new ArrayCollection();
     }
 
     /***************** ******************/
@@ -327,6 +329,10 @@ class User implements UserInterface
         return $this;
     }
 
+    /***************** ******************/
+    /***************  Mail  *************/
+    /***************** ******************/
+
     /**
      * @return Collection|Mail[]
      */
@@ -355,35 +361,38 @@ class User implements UserInterface
         return $this;
     }
 
+    /***************** ******************/
+    /************  Favorite  ************/
+    /***************** ******************/
+
     /**
-     * @return Collection|ArticleLike[]
+     * @return Collection|Article[]
      */
-    public function getLikes(): Collection
+    public function getFavArticles(): Collection
     {
-        return $this->likes;
+        return $this->favArticles;
     }
 
-    public function addLike(ArticleLike $like): self
+    public function addFavArticle(Article $favArticle): self
     {
-        if (!$this->likes->contains($like)) {
-            $this->likes[] = $like;
-            $like->setUser($this);
+        if (!$this->favArticles->contains($favArticle)) {
+            $this->favArticles[] = $favArticle;
         }
 
         return $this;
     }
 
-    public function removeLike(ArticleLike $like): self
+    public function removeFavArticle(Article $favArticle): self
     {
-        if ($this->likes->contains($like)) {
-            $this->likes->removeElement($like);
-            // set the owning side to null (unless already changed)
-            if ($like->getUser() === $this) {
-                $like->setUser(null);
-            }
+        if ($this->favArticles->contains($favArticle)) {
+            $this->favArticles->removeElement($favArticle);
         }
 
         return $this;
     }
 
+    public function isFavorite(Article $article):bool
+    {
+        return $this->getFavArticles()->contains($article);
+    }
 }

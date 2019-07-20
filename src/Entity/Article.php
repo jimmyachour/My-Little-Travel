@@ -74,11 +74,6 @@ class Article
     private $author;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ArticleLike", mappedBy="article")
-     */
-    private $likes;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="articles")
      */
     private $tags;
@@ -89,7 +84,6 @@ class Article
     public function __construct()
     {
         $this->comments = new ArrayCollection();
-        $this->likes = new ArrayCollection();
         $this->tags = new ArrayCollection();
     }
 
@@ -266,37 +260,6 @@ class Article
     }
 
     /**
-     * @return Collection|ArticleLike[]
-     */
-    public function getLikes(): Collection
-    {
-        return $this->likes;
-    }
-
-    public function addLike(ArticleLike $like): self
-    {
-        if (!$this->likes->contains($like)) {
-            $this->likes[] = $like;
-            $like->setArticle($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLike(ArticleLike $like): self
-    {
-        if ($this->likes->contains($like)) {
-            $this->likes->removeElement($like);
-            // set the owning side to null (unless already changed)
-            if ($like->getArticle() === $this) {
-                $like->setArticle(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Tag[]
      */
     public function getTags(): Collection
@@ -323,4 +286,5 @@ class Article
 
         return $this;
     }
+
 }
